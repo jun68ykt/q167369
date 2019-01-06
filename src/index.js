@@ -3,56 +3,41 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 
-//　form　- ここにstateをもたせるべきか
-class TodoInput extends React.Component {
-  render() {
-    return (
-      <>
-        <input
-          name="title"
-          type="text"
-          placeholder="タイトルを入力"
-          value={this.props.title}
-          onChange={this.props.handleChange}
-        />
-        <br />
-        <textarea
-          name="description"
-          type="text"
-          placeholder="内容を入力"
-          value={this.props.description}
-          onChange={this.props.handleChange}
-        />
-        <br />
-        <button onClick={this.props.handleSubmit}>追加</button>
-      </>
-    );
-  }
-}
+// 新規Todo入力フォーム
+const TodoInput = ({ title, description, handleChange, handleSubmit }) => (
+  <>
+    <input
+      name="title"
+      type="text"
+      placeholder="タイトルを入力"
+      value={title}
+      onChange={handleChange}
+    />
+    <br />
+    <textarea
+      name="description"
+      type="text"
+      placeholder="内容を入力"
+      value={description}
+      onChange={handleChange}
+    />
+    <br />
+    <button onClick={handleSubmit}>追加</button>
+  </>
+);
 
 // todoの一つの要素を表すコンポーネント
-const TodoItem = props => {
-  return (
-    <>
-      <li>{props.title}</li>
-      <li>{props.description}</li>
-    </>
-  );
-};
+const TodoItem = ({ title, description }) => (
+  <>
+    <li>{title}</li>
+    <li>{description}</li>
+  </>
+);
 
 // データを受けて一覧表示させている
-class TodoList extends React.Component {
-  render() {
-    const list = this.props.tasks.map(task => {
-      return <TodoItem {...task} key={task.id} />;
-    });
-    return (
-      <>
-        <ul>{list}</ul>
-      </>
-    );
-  }
-}
+const TodoList = ({ tasks }) => (
+  <ul>{tasks.map(task => <TodoItem {...task} key={task.id} />)}</ul>
+);
 
 // 親コンポーネント、stateをここに固めたい。
 // formで入力した情報をクリックしたらsetStateしたい。
