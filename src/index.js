@@ -57,8 +57,8 @@ class TodoList extends React.Component {
 // 親コンポーネント、stateをここに固めたい。
 // formで入力した情報をクリックしたらsetStateしたい。
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       tasks: [],
       uniqueId: 1,
