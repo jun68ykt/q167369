@@ -16,7 +16,6 @@ const TodoInput = ({ title, description, handleChange, handleSubmit }) => (
     <br />
     <textarea
       name="description"
-      type="text"
       placeholder="内容を入力"
       value={description}
       onChange={handleChange}
