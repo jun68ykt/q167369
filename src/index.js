@@ -8,9 +8,21 @@ class TodoInput extends React.Component {
   render() {
     return (
       <>
-        <input name="title" type="text" placeholder="タイトルを入力" />
+        <input
+          name="title"
+          type="text"
+          placeholder="タイトルを入力"
+          value={this.props.title}
+          onChange={this.props.handleChange}
+        />
         <br />
-        <textarea name="description" type="text" placeholder="内容を入力" />
+        <textarea
+          name="description"
+          type="text"
+          placeholder="内容を入力"
+          value={this.props.description}
+          onChange={this.props.handleChange}
+        />
         <br />
         <button onClick={this.props.handleSubmit}>追加</button>
       </>
@@ -49,28 +61,28 @@ class App extends React.Component {
     super();
     this.state = {
       tasks: [],
-      uniqueId: 1
+      uniqueId: 1,
+      form: { title: "", description: "" },
     };
   }
 
-  handleClick(e) {
-    // 入力情報がeventに反映されていない
-    const newTitle = e.target.title.value;
-    const newDescription = e.target.description.value;
-    const newUniqueId = this.state.uniqueId + 1;
-    const newTasks = this.state.tasks.slice();
-
-    newTasks.push({
-      title: newTitle,
-      description: newDescription,
-      id: newUniqueId
+  handleChange = (e) => {
+    this.setState({
+      form: { ...this.state.form, [e.target.name]: e.target.value },
     });
+  };
 
-    this.setState({ newTasks });
-
-    e.target.title.value = "";
-    e.target.description.value = "";
-  }
+  handleClick = () => {
+    const newTask = {
+      ...this.state.form,
+      id: this.state.uniqueId,
+    };
+    this.setState({
+      tasks: [newTask, ...this.state.tasks],
+      uniqueId: this.state.uniqueId + 1,
+      form: { title: "", description: "" },
+    });
+  };
 
   resetTodo = () => {
     this.setState({
@@ -84,7 +96,11 @@ class App extends React.Component {
         <p>Todo App</p>
         <button onClick={this.resetTodo}>一括削除</button>
         <br />
-        <TodoInput handleSubmit={this.handleClick.bind(this)} />
+        <TodoInput
+          {...this.state.form}
+          handleChange={this.handleChange}
+          handleSubmit={this.handleClick}
+        />
         <TodoList tasks={this.state.tasks} />
       </>
     );
